@@ -1,1 +1,147 @@
-<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Otaku Grid - Anime Collage Creator</title>\n    <link rel="stylesheet" href="styles.css">\n    <script src="script.js" defer></script>\n</head>\n<body class="dark-theme">\n    <header>\n        <h1>Anime Collage Creator</h1>\n        <button id="settingsBtn">Settings</button>\n    </header>\n    <main>\n        <div id="gridContainer">\n            <!-- Placeholder for anime images -->\n            <div class="grid-item"></div>\n            <div class="grid-item"></div>\n            <div class="grid-item"></div>\n            <div class="grid-item"></div>\n            <div class="grid-item"></div>\n            <div class="grid-item"></div>\n        </div>\n    </main>\n    <footer>\n        <p>Created by Otaku Enthusiasts</p>\n    </footer>\n    <div id="settingsModal" class="modal">\n        <div class="modal-content">\n            <span class="close-btn">&times;</span>\n            <h2>Settings</h2>\n            <label for="gridSize">Grid Size:</label>\n            <input type="range" id="gridSize" min="1" max="10" value="5">\n            <button id="saveSettings">Save</button>\n        </div>\n    </div>\n    <div id="toast" class="toast">Settings saved successfully!</div>\n    <script>\n        // JavaScript for modal and toast notifications\n        document.getElementById('settingsBtn').onclick = function() {\n            document.getElementById('settingsModal').style.display = 'block';\n        };\n        document.querySelector('.close-btn').onclick = function() {\n            document.getElementById('settingsModal').style.display = 'none';\n        };\n        document.getElementById('saveSettings').onclick = function() {\n            document.getElementById('toast').style.visibility = 'visible';\n            setTimeout(function() {\n                document.getElementById('toast').style.visibility = 'hidden';\n            }, 3000);\n            document.getElementById('settingsModal').style.display = 'none';\n        };\n    <\/script>\n</body>\n</html>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Otaku Grid - Anime Collage Generator</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👒</text></svg>">
+</head>
+<body>
+	<div class="app-layout">
+		<!-- Sidebar Controls -->
+		<aside class="sidebar" aria-label="Settings and controls panel">
+			<div class="sidebar-brand">
+				<h1>Otaku Grid</h1>
+				<p class="tagline">Anime Collage Generator</p>
+			</div>
+
+			<div class="sidebar-section">
+				<label class="sidebar-title" for="anime-input">Anime Titles (one per line)</label>
+				<textarea
+					id="anime-input"
+					class="anime-textarea"
+					aria-label="Anime title list input"
+					placeholder="Enter titles..."
+				></textarea>
+				<div class="preset-buttons">
+					<button class="preset-btn" id="preset-shonen" type="button" title="Top Shonen">🔥</button>
+					<button class="preset-btn" id="preset-romance" type="button" title="Romance">💕</button>
+					<button class="preset-btn" id="preset-starter" type="button" title="Starter Pack">🌟</button>
+				</div>
+				<button class="btn btn-primary generate-btn" id="fetch-btn" type="button">Generate Collage</button>
+			</div>
+
+			<div class="sidebar-section">
+				<h3 class="sidebar-title">Source</h3>
+				<div class="toggle-group" role="group" aria-label="Data source selector">
+					<button type="button" class="toggle-btn active" data-source="anilist">AniList</button>
+					<button type="button" class="toggle-btn" data-source="mal">MAL</button>
+				</div>
+			</div>
+
+			<div class="sidebar-section">
+				<h3 class="sidebar-title">Grid Configuration</h3>
+				<div class="segmented-buttons" role="group" aria-label="Grid size selector">
+					<button type="button" class="seg-btn active" data-grid="3">3×3</button>
+					<button type="button" class="seg-btn" data-grid="4">4×4</button>
+					<button type="button" class="seg-btn" data-grid="5">5×5</button>
+					<button type="button" class="seg-btn" data-grid="auto">Auto</button>
+				</div>
+			</div>
+
+			<div class="sidebar-section">
+				<h3 class="sidebar-title">Options</h3>
+				<label class="checkbox-label" style="margin-bottom: 0.75rem;">
+					<input type="checkbox" id="overlay-toggle" checked>
+					<span>Show Titles</span>
+				</label>
+				
+				<h3 class="sidebar-title" style="margin-top: 1.5rem;">Export Background</h3>
+				<div class="segmented-buttons" role="group" aria-label="Export background selector" style="flex-wrap: wrap;">
+					<button type="button" class="bg-btn active" data-bg="#000000">Dark</button>
+					<button type="button" class="bg-btn" data-bg="#ffffff">Light</button>
+					<button type="button" class="bg-btn" data-bg="gradient-cosmic">Cosmic</button>
+					<button type="button" class="bg-btn" data-bg="gradient-sunset">Sunset</button>
+					<button type="button" class="bg-btn" data-bg="transparent">None</button>
+				</div>
+			</div>
+
+			<div class="sidebar-footer">
+				<button class="btn btn-secondary sidebar-btn" id="edit-grid-btn" type="button">✏️ Edit Grid</button>
+				<button class="btn btn-secondary sidebar-btn" id="settings-btn" type="button">⚙️ Settings</button>
+			</div>
+		</aside>
+
+		<!-- Main Content Area -->
+		<div class="content-area">
+			<header class="main-header">
+				<div class="export-controls">
+					<select id="export-format" class="export-format-select">
+						<option value="png">PNG Image</option>
+						<option value="jpeg">JPEG Image</option>
+					</select>
+					<button class="btn btn-accent" id="export-btn" type="button">Export Collage</button>
+					<button class="btn btn-secondary" id="copy-link-btn" type="button">Share Link</button>
+				</div>
+				<a href="https://github.com/Parthivkoli/Otaku-Grid" class="github-link" title="GitHub">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V21"></path>
+					</svg>
+				</a>
+			</header>
+
+			<main class="collage-canvas">
+				<div id="grid-container" class="grid-container grid-3x3"></div>
+			</main>
+		</div>
+	</div>
+
+	<div id="settings-modal" class="modal" aria-hidden="true">
+		<div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+			<div class="modal-header">
+				<h2 id="settings-title">Settings</h2>
+				<button id="modal-close" class="modal-close" type="button" aria-label="Close settings">&times;</button>
+			</div>
+			<div class="modal-body">
+				<div class="setting-item">
+					<h3>Cache</h3>
+					<p class="setting-description">Clear stored search results from localStorage.</p>
+					<button id="clear-cache-btn" class="btn btn-danger" type="button" aria-label="Clear local cache">Clear Cache</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="edit-modal" class="modal" aria-hidden="true">
+		<div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+			<div class="modal-header">
+				<h2 id="edit-title">Edit Tile</h2>
+				<button id="edit-modal-close" class="modal-close" type="button" aria-label="Close edit tile dialog">&times;</button>
+			</div>
+			<div class="modal-body">
+				<div class="setting-item">
+					<h3>Replace Title</h3>
+					<p class="setting-description">Enter a new title and fetch its cover art for this tile.</p>
+					<input id="edit-title-input" class="anime-textarea" aria-label="New title for selected tile" placeholder="Type a new anime title" />
+				</div>
+				<div class="actions-row">
+					<button id="edit-save-btn" class="btn btn-primary" type="button" aria-label="Save edited tile">Save Tile</button>
+					<button id="edit-remove-btn" class="btn btn-danger" type="button" aria-label="Remove selected tile">Remove Tile</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="toast" class="toast" role="status" aria-live="polite">
+		<span id="toast-message"></span>
+		<button id="toast-close" class="toast-close" type="button" aria-label="Dismiss message">&times;</button>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+	<script src="app.js" defer></script>
+</body>
+</html>
