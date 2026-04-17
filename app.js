@@ -448,16 +448,16 @@ function init() {
         showToast("Link copied! (Localhost unshortenable)");
       } else {
         try {
-          // Use TinyURL routed through our Codetabs proxy to perfectly bypass all CORS errors!
-          const apiUrl = `https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`;
+          // Use is.gd routed through our Codetabs proxy for a fast, ad-free experience!
+          const apiUrl = `https://is.gd/create.php?format=simple&url=${encodeURIComponent(longUrl)}`;
           const response = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(apiUrl)}`);
           
           if (!response.ok) throw new Error("Proxy or API rejected request");
           
           const shortUrl = await response.text();
           
-          if (shortUrl.startsWith("http")) {
-            await navigator.clipboard.writeText(shortUrl);
+          if (shortUrl.includes("http")) {
+            await navigator.clipboard.writeText(shortUrl.trim());
             showToast("Short link copied!");
           } else {
             throw new Error("Invalid URL returned");
