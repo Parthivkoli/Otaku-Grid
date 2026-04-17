@@ -91,10 +91,11 @@ function getSeasons() {
 
 const BACKGROUNDS = {
   "#000000": "#000000",
-  "#ffffff": "#ffffff",
   "transparent": "transparent",
-  "gradient-cosmic": "linear-gradient(135deg, #1f005c, #5b0060, #870160, #ac255e, #ca485c, #e16b5c, #f39060, #ffb56b)",
-  "gradient-sunset": "linear-gradient(135deg, #ff4e50, #f9d423)"
+  "gradient-midnight": "linear-gradient(135deg, #0f172a, #1e293b, #334155)",
+  "gradient-cyberpunk": "linear-gradient(135deg, #120458, #ff007f, #00e5ff)",
+  "gradient-sakura": "linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)",
+  "gradient-abyss": "linear-gradient(135deg, #0f2027, #203a43, #2c5364)"
 };
 
 function normalizeTitle(title) {
@@ -284,10 +285,13 @@ function renderGrid() {
         `;
         tile.appendChild(info);
       } else {
-        const overlay = document.createElement("div");
-        overlay.className = `tile-overlay ${state.showOverlay ? "" : "hidden"}`;
-        overlay.textContent = result.title;
-        tile.appendChild(overlay);
+        const info = document.createElement("div");
+        info.className = "tile-info";
+        info.innerHTML = `
+          <div class="t-title">${result.title}</div>
+          <div class="t-year">${result.year}</div>
+        `;
+        tile.appendChild(info);
       }
     }
 

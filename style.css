@@ -1,13 +1,13 @@
 :root {
-  --bg: #080a0f;
-  --surface: #12151d;
-  --surface-alt: #1a1e2a;
-  --accent: #00a2ff;
-  --accent-glow: rgba(0, 162, 255, 0.4);
+  --bg: #11131a;
+  --surface: #1e2230;
+  --surface-alt: #242938;
+  --accent: #00e5ff;
+  --accent-glow: rgba(0, 229, 255, 0.4);
   --text: #ffffff;
   --text-muted: #8e9db7;
-  --border: rgba(255, 255, 255, 0.08);
-  --radius: 12px;
+  --border: rgba(0, 229, 255, 0.2);
+  --radius: 16px;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -26,27 +26,56 @@ body {
   width: 100vw;
 }
 
+/* Custom Webkit Scrollbars for an aesthetic feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-alt);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 229, 255, 0.5);
+}
+
 .app-layout {
   display: flex;
   height: 100vh;
   width: 100vw;
+  padding: 1.5rem;
+  gap: 1.5rem;
+  background: var(--bg);
 }
 
 /* Sidebar */
 .sidebar {
   width: 320px;
   background: var(--surface);
-  border-right: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius);
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
   z-index: 10;
-  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
   overflow-y: auto;
 }
 
 .sidebar-brand {
-  margin-bottom: 2rem;
+  position: sticky;
+  top: -1.5rem;
+  margin-top: -1.5rem;
+  padding: 1.5rem 0 1rem 0;
+  background: var(--surface);
+  z-index: 100;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 1.5rem;
 }
 
 .sidebar-brand h1 {
@@ -84,20 +113,21 @@ body {
   width: 100%;
   height: 120px;
   background: var(--surface-alt);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: var(--radius);
   color: #fff;
-  padding: 0.75rem;
+  padding: 1rem;
   font-family: inherit;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   resize: none;
   transition: var(--transition);
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
 }
 
 .anime-textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.2), 0 0 0 3px var(--accent-glow);
 }
 
 .preset-buttons {
@@ -152,8 +182,9 @@ body {
 
 .toggle-btn.active, .seg-btn.active, .bg-btn.active, .style-btn.active {
   background: var(--accent);
-  color: #fff;
-  box-shadow: 0 4px 12px var(--accent-glow);
+  color: #000;
+  font-weight: 800;
+  box-shadow: 0 4px 15px var(--accent-glow);
 }
 
 .checkbox-label {
@@ -182,19 +213,16 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: #000;
+  background: transparent;
   position: relative;
   overflow: hidden;
+  border-radius: var(--radius);
 }
 
 .main-header {
-  padding: 1rem 2rem;
-  background: rgba(8, 10, 15, 0.8);
-  backdrop-filter: blur(20px);
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  border-bottom: 1px solid var(--border);
   z-index: 5;
 }
 
@@ -228,33 +256,37 @@ body {
 
 .btn-primary {
   background: var(--accent);
-  color: #fff;
+  color: #000;
+  box-shadow: 0 0 15px var(--accent-glow);
 }
 
 .btn-primary:hover {
   filter: brightness(1.1);
-  box-shadow: 0 4px 15px var(--accent-glow);
+  box-shadow: 0 0 25px var(--accent-glow);
+}
+
+.btn-outline-glow {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.btn-outline-glow:hover {
+  background: var(--accent);
+  color: #000;
+  box-shadow: 0 0 20px var(--accent-glow);
 }
 
 .btn-secondary {
   background: var(--surface-alt);
   color: var(--text-muted);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .btn-secondary:hover {
-  background: var(--border);
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
-}
-
-.btn-accent {
-  background: #fff;
-  color: #000;
-}
-
-.btn-accent:hover {
-  transform: scale(1.02);
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
 }
 
 .github-link {
@@ -278,12 +310,10 @@ body {
 
 .grid-container {
   display: grid;
-  gap: 12px;
+  gap: 16px;
   padding: 24px;
-  background: #000000;
-  border-radius: 12px;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 162, 255, 0.1);
-  width: max-content; /* Grids scale physically larger when tiles are added, rather than tiles shrinking to fit container */
+  background: transparent;
+  width: max-content; 
   margin: 0 auto;
   position: relative;
 }
@@ -305,17 +335,56 @@ body {
 .export-mode, .export-mode * {
   animation: none !important;
   transition: none !important;
+  box-shadow: none !important;
 }
 
 .tile {
-  position: relative;
-  aspect-ratio: 1/1;
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--surface-alt);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 10px 0 10px;
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.05);
   transition: var(--transition);
   cursor: grab;
   animation: pop-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+.tile:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 229, 255, 0.2);
+  border-color: var(--accent);
+  z-index: 2;
+}
+
+.tile img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  border-radius: 8px;
+  object-fit: cover;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.tile-info {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 4px;
+}
+.t-title {
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+.t-year {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
 @keyframes pop-in {
@@ -323,32 +392,12 @@ body {
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-/* Let auto tiles break free of the 1:1 aspect ratio constraint so tall/wide images display correctly */
+/* Let auto tiles break free of the constrained flex bounds so tall/wide images display elegantly */
 .grid-auto .tile {
-  aspect-ratio: auto;
-  display: inline-block;
+  display: inline-flex;
   width: 100%;
   margin-bottom: 12px;
   break-inside: avoid;
-}
-
-/* In auto mode, let the image dictate height rather than being absolutely stretched */
-.grid-auto .tile img {
-  position: static;
-  display: block;
-}
-
-.tile:hover {
-  transform: scale(1.05);
-  z-index: 2;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-.tile img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: var(--transition);
 }
 
 /* Polaroid Card Styles */
@@ -527,36 +576,54 @@ body {
   opacity: 1;
 }
 
-/* Mobile */
+/* Mobile Bottom Sheet Drawer */
 @media (max-width: 768px) {
   .app-layout {
     flex-direction: column;
-    overflow-y: auto;
+    padding: 0;
+    display: block;
   }
   
   body {
-    overflow-y: auto;
+    overflow-y: hidden;
   }
 
   .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     width: 100%;
     height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
+    max-height: 50vh;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px 24px 0 0;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+    z-index: 50;
+  }
+
+  .sidebar::before {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+    margin: 0 auto 1rem auto;
+  }
+
+  .content-area {
+    height: 100vh;
+    padding-bottom: 50vh;
+    border-radius: 0;
   }
 
   .collage-canvas {
     padding: 1rem;
     height: auto;
-    min-height: 100vw;
-  }
-
-  .main-header {
-    padding: 0.75rem 1rem;
   }
 
   .grid-container {
-    gap: 8px;
     padding: 10px;
   }
 }

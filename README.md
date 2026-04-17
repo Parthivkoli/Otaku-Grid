@@ -6,10 +6,6 @@ A fast, interactive web app that lets you create stunning anime cover collages w
 
 ![Made with Vanilla JS](https://img.shields.io/badge/Made%20with-Vanilla%20JS-yellow) ![License MIT](https://img.shields.io/badge/License-MIT-blue) ![GitHub](https://img.shields.io/badge/GitHub-Parthivkoli-black)
 
-<p align="center">
-  <img src="demo.png" alt="Otaku-Grid Demo Screenshot" width="800" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-</p>
-
 ---
 
 ## ✨ Features
