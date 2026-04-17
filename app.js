@@ -204,8 +204,15 @@ function setupDragAndDrop(tile) {
 }
 
 async function handleGenerate() {
-  const titles = elements.input.value.split("\n").map(t => t.trim()).filter(Boolean);
+  // Strip out numbered list prefixes (e.g. "1. ", "12) ", "5-")
+  const titles = elements.input.value.split("\n")
+    .map(t => t.replace(/^\d+[\.\)\-]?\s*/, '').trim())
+    .filter(Boolean);
+
   if (titles.length === 0) return;
+
+  // Magically clean up the user's textarea to show the fixed titles
+  elements.input.value = titles.join("\n");
 
   state.entries = titles;
   state.fetchedOnce = true;
