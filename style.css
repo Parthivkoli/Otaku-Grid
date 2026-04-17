@@ -270,6 +270,7 @@ body {
 .collage-canvas {
   flex: 1;
   display: flex;
+  align-items: flex-start; /* Prevents vertical crushing of children */
   justify-content: center;
   padding: 2rem;
   overflow-y: auto;
@@ -296,7 +297,15 @@ body {
 .grid-3x3 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
 .grid-4x4 { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 1fr); }
 .grid-5x5 { grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 1fr); }
-.grid-auto { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); width: 100%; height: auto; }
+
+/* Auto mode transforms into a masonry-style layout for natural aspect ratios */
+.grid-auto { 
+  display: block; 
+  column-width: 180px;
+  column-gap: 12px;
+  width: 100%; 
+  height: max-content; 
+}
 
 .tile {
   position: relative;
@@ -306,6 +315,21 @@ body {
   background: var(--surface-alt);
   transition: var(--transition);
   cursor: grab;
+}
+
+/* Let auto tiles break free of the 1:1 aspect ratio constraint so tall/wide images display correctly */
+.grid-auto .tile {
+  aspect-ratio: auto;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 12px;
+  break-inside: avoid;
+}
+
+/* In auto mode, let the image dictate height rather than being absolutely stretched */
+.grid-auto .tile img {
+  position: static;
+  display: block;
 }
 
 .tile:hover {
