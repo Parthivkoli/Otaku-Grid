@@ -27,10 +27,18 @@
 					aria-label="Anime title list input"
 					placeholder="Enter titles..."
 				></textarea>
-				<div class="preset-buttons">
+				<div class="preset-buttons" style="flex-wrap: wrap;">
 					<button class="preset-btn" id="preset-shonen" type="button" title="Top Shonen">🔥</button>
 					<button class="preset-btn" id="preset-romance" type="button" title="Romance">💕</button>
 					<button class="preset-btn" id="preset-starter" type="button" title="Starter Pack">🌟</button>
+					<button class="preset-btn" id="preset-isekai" type="button" title="Isekai">🌍</button>
+					<button class="preset-btn" id="preset-fantasy" type="button" title="Fantasy">⚔️</button>
+				</div>
+				
+				<h3 class="sidebar-title" style="margin-top: 1rem;">Seasonal Data</h3>
+				<div class="preset-buttons">
+					<button class="preset-btn" id="season-current" type="button" style="font-size: 0.8rem; font-weight: 700;">Current Season</button>
+					<button class="preset-btn" id="season-previous" type="button" style="font-size: 0.8rem; font-weight: 700;">Prev Season</button>
 				</div>
 				<button class="btn btn-primary generate-btn" id="fetch-btn" type="button">Generate Collage</button>
 			</div>
@@ -50,6 +58,18 @@
 					<button type="button" class="seg-btn" data-grid="4">4×4</button>
 					<button type="button" class="seg-btn" data-grid="5">5×5</button>
 					<button type="button" class="seg-btn" data-grid="auto">Auto</button>
+					<button type="button" class="seg-btn" id="custom-grid-btn">Custom</button>
+				</div>
+				<div id="custom-grid-inputs" style="display: none; gap: 8px; margin-top: 8px;">
+					<input type="number" id="custom-cols" class="anime-textarea" style="height: 36px; padding: 4px 8px; flex: 1;" min="1" max="15" placeholder="Cols (e.g. 5)" value="5">
+					<input type="number" id="custom-rows" class="anime-textarea" style="height: 36px; padding: 4px 8px; flex: 1;" min="1" max="15" placeholder="Rows (e.g. 2)" value="2">
+					<button type="button" id="apply-custom-grid" class="btn btn-primary" style="padding: 0 12px;">Apply</button>
+				</div>
+				
+				<h3 class="sidebar-title" style="margin-top: 1.5rem;">Card Style</h3>
+				<div class="segmented-buttons" role="group" aria-label="Card style selector">
+					<button type="button" class="style-btn active" data-style="default">Default</button>
+					<button type="button" class="style-btn" data-style="polaroid">Polaroid</button>
 				</div>
 			</div>
 

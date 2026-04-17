@@ -137,7 +137,7 @@ body {
   gap: 4px;
 }
 
-.toggle-btn, .seg-btn, .bg-btn {
+.toggle-btn, .seg-btn, .bg-btn, .style-btn {
   flex: 1;
   padding: 0.5rem;
   border: none;
@@ -150,7 +150,7 @@ body {
   transition: var(--transition);
 }
 
-.toggle-btn.active, .seg-btn.active, .bg-btn.active {
+.toggle-btn.active, .seg-btn.active, .bg-btn.active, .style-btn.active {
   background: var(--accent);
   color: #fff;
   box-shadow: 0 4px 12px var(--accent-glow);
@@ -273,7 +273,7 @@ body {
   align-items: flex-start; /* Prevents vertical crushing of children */
   justify-content: center;
   padding: 2rem;
-  overflow-y: auto;
+  overflow: auto; /* Allows panning large grids horizontally as well as vertically */
 }
 
 .grid-container {
@@ -283,28 +283,28 @@ body {
   background: #000000;
   border-radius: 12px;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 162, 255, 0.1);
-  width: 100%;
-  max-width: min(85vh, 1000px);
+  width: max-content; /* Grids scale physically larger when tiles are added, rather than tiles shrinking to fit container */
   margin: 0 auto;
   position: relative;
 }
 
-/* Ensure only nxn layouts are forced into squares, leaving auto fluid */
-.grid-3x3, .grid-4x4, .grid-5x5 {
-  aspect-ratio: 1 / 1;
-}
+.grid-3x3 { grid-template-columns: repeat(3, 180px); }
+.grid-4x4 { grid-template-columns: repeat(4, 180px); }
+.grid-5x5 { grid-template-columns: repeat(5, 180px); }
 
-.grid-3x3 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
-.grid-4x4 { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 1fr); }
-.grid-5x5 { grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 1fr); }
-
-/* Auto mode transforms into a masonry-style layout for natural aspect ratios */
+/* Auto mode transforms into a resilient grid layout for natural aspect ratios */
 .grid-auto { 
-  display: block; 
-  column-width: 180px;
-  column-gap: 12px;
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  align-items: start;
   width: 100%; 
   height: max-content; 
+}
+
+/* Safe export mode to prevent html2canvas glitches with animations */
+.export-mode, .export-mode * {
+  animation: none !important;
+  transition: none !important;
 }
 
 .tile {
@@ -315,6 +315,12 @@ body {
   background: var(--surface-alt);
   transition: var(--transition);
   cursor: grab;
+  animation: pop-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 /* Let auto tiles break free of the 1:1 aspect ratio constraint so tall/wide images display correctly */
@@ -342,7 +348,73 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: var(--transition);
 }
+
+/* Polaroid Card Styles */
+.grid-container.style-polaroid {
+  gap: 16px;
+  align-items: start; /* Let cards hang naturally and avoid row stretching */
+}
+.grid-container.style-polaroid .tile {
+  background: #efeade;
+  padding: 8px 8px 0px 8px;
+  border-radius: 2px;
+  aspect-ratio: auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  height: max-content;
+}
+.grid-container.style-polaroid .tile img {
+  height: auto;
+  aspect-ratio: 3 / 4;
+  border-radius: 2px;
+  border: 1px solid rgba(0,0,0,0.1);
+  position: static;
+  flex-shrink: 0;
+}
+.polaroid-info {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0 16px 0;
+  color: #111;
+  font-family: 'DM Sans', sans-serif;
+  height: auto;
+}
+.p-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+  gap: 8px;
+}
+.p-title {
+  font-weight: 800;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  white-space: normal;
+  flex: 1;
+  line-height: 1.15;
+  word-break: break-word; /* Allows extremely long words to shatter cleanly */
+}
+.p-year {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #444;
+  margin-left: 6px;
+}
+.p-meta {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  color: #333;
+  line-height: 1.3;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.p-meta span.l { font-weight: 700; color: #000; margin-right: 4px; }
 
 .tile-overlay {
   position: absolute;
@@ -381,6 +453,10 @@ body {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+.tile.empty {
+  visibility: hidden;
 }
 
 .tile.not-found {
