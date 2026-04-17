@@ -448,9 +448,9 @@ function init() {
         showToast("Link copied! (Localhost unshortenable)");
       } else {
         try {
-          // Use is.gd routed through our Codetabs proxy for a fast, ad-free experience!
-          const apiUrl = `https://is.gd/create.php?format=simple&url=${encodeURIComponent(longUrl)}`;
-          const response = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(apiUrl)}`);
+          // Use clck.ru (Clean, ad-free, and fast) + a cache-buster timestamp to force-refresh the proxy!
+          const apiUrl = `https://clck.ru/--?url=${encodeURIComponent(longUrl)}`;
+          const response = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(apiUrl)}&t=${Date.now()}`);
           
           if (!response.ok) throw new Error("Proxy or API rejected request");
           
