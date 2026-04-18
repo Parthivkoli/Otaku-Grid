@@ -30,23 +30,37 @@
 
 ---
 
-## 📸 Screenshots
+## 📸 Exhibition
 
-### 🖼️ Collage View
-Classic grid layout with polished glassmorphism and real-time reflections.
-![Collage View](screenshots/collage.png)
+### 🖼️ Master Collage View
+Experience the full glassmorphic aesthetic with high-resolution anime covers and dynamic reflections.
+<p align="center">
+  <img src="screenshots/otaku-collage.png" width="100%" alt="Main Collage View" />
+</p>
 
-### 🕸️ Interactive Graph
-Discover hidden genre connections through our custom physics-based bubble graph.
-![Graph View](screenshots/graph.png)
-
-### 📸 Polaroid Mode
-Nostalgic Polaroid-style cards for that vintage aesthetic.
-![Polaroid View](screenshots/polaroid.png)
-
-### 📋 Detail Inspector
-Full anime breakdown including score, episodes, and direct links to AniList/MAL.
-![Detail View](screenshots/detail.png)
+### 🔍 Features & Interaction
+<table align="center">
+  <tr>
+    <td width="50%" align="center">
+      <strong>🕸️ Bubble Graph View</strong><br/>
+      <img src="screenshots/graph.png" width="100%" alt="Graph View" />
+    </td>
+    <td width="50%" align="center">
+      <strong>📋 Detail Inspector</strong><br/>
+      <img src="screenshots/details.png" width="100%" alt="Detail View" />
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <strong>📸 Polaroid Mode</strong><br/>
+      <img src="screenshots/polaroid.png" width="100%" alt="Polaroid View" />
+    </td>
+    <td width="50%" align="center">
+      <strong>⚡ Loading States</strong><br/>
+      <img src="screenshots/Loading.png" width="100%" alt="Loading State" />
+    </td>
+  </tr>
+</table>
 
 ---
 
